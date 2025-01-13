@@ -15,7 +15,8 @@ const shopify = shopifyApi({
   hostName,
   hostScheme,
   apiVersion: ApiVersion.January25,
-  isEmbeddedApp: true
+  isEmbeddedApp: true,
+  logLevel: "debug",
 });
 
 Deno.serve(async (req) => {
@@ -50,6 +51,8 @@ Deno.serve(async (req) => {
 			rawRequest: req,
 			rawResponse: rawRes
 		});
+
+		console.log(rawRes.headers);
 
 		return new Response(null, {
 			status: rawRes.statusCode,
