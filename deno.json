@@ -1,0 +1,9 @@
+{
+  "tasks": {
+    "dev": "deno run --watch main.ts"
+  },
+  "imports": {
+    "@shopify/shopify-api": "npm:@shopify/shopify-api@^11.7.0",
+    "@std/assert": "jsr:@std/assert@1"
+  }
+}
