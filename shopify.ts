@@ -1,12 +1,10 @@
 import {
-  deleteCookie,
   setCookie,
   getCookies,
-} from "https://deno.land/std/http/cookie.ts";
+} from "https://deno.land/std@0.224.0/http/cookie.ts";
 import { createSHA256HMAC } from "@shopify/shopify-api/runtime";
 import { Session } from "@shopify/shopify-api";
 import { safeCompare, validateHmac } from "./hmac.ts";
-import { v4 as uuidv4 } from "npm:uuid";
 
 export type Params = {
   rawRequest: Request;
@@ -67,16 +65,6 @@ export type AuthQuery = {
   hmac?: string;
   signature?: string;
 };
-
-/*
-  const cookieHeaders = rawRequest.headers.get("cookie");
-  if (!cookieHeaders) {
-	throw new Error("Missing 'cookie' header");
-  }
-
-  const cookies = cookieHeaders.split(";").map(c => Cookie.from(c));
-  const cookieJar = new CookieJar(cookies);
-*/
 
 async function setAndSignCookie(
   headers: Headers,
