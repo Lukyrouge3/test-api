@@ -167,7 +167,7 @@ export async function callback(config: CallbackParams): Promise<Session> {
     !validateHmac(config, authQuery) ||
     !safeCompare(authQuery.state!, stateCookie)
   ) {
-    console.error("Invalid OAuth callback", { shop, stateCookie });
+    console.error("Invalid OAuth callback", { shop, stateCookie }, !validateHmac(config, authQuery), !safeCompare(authQuery.state!, stateCookie));
   }
 
   console.debug("OAuth request is valid, requesting access token", { shop });
@@ -196,11 +196,15 @@ export async function callback(config: CallbackParams): Promise<Session> {
     throw new Error(`Failed to get access token for ${shop}`);
   }
 
+	const accessTokenResponse = await postResponse.json();
+	console.log(accessTokenResponse);
+
   const session: Session = new Session({
     shop,
     state: stateCookie,
     config,
-    accessTokenResponse: await postResponse.json(),
+    accessToken: accessTokenResponse.access_token,
+		scope: accessTokenResponse.scope,
     isOnline: config.isOnline,
     id: `offline_${shop}`,
   });
