@@ -44,7 +44,7 @@ Deno.serve(async (req) => {
 			}`
       );
 
-      return new Response(JSON.stringify(response));
+      return new Response(JSON.stringify({response, session}));
     } catch (error) {
       console.error(error);
       return new Response(JSON.stringify({message: "Internal server error", session, error}), { status: 500 });
@@ -77,7 +77,12 @@ Deno.serve(async (req) => {
       // Store the session
 
 			// Redirect to the home page
-			return Response.redirect("/", 302);
+			return new Response("Authenticated", {
+				status: 302,
+				headers: {
+					Location: "/",
+				},
+			});
     } catch (error) {
       console.error(error);
     }
